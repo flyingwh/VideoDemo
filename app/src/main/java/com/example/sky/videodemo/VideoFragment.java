@@ -34,6 +34,9 @@ public class VideoFragment extends Fragment implements SurfaceHolder.Callback, I
 
     private static final int MSG_SIZE_CHANGED = 11;
 
+
+    public static boolean sIsFullScreen;
+
     private ViewGroup mProgressVG;
     private TextView mCurrentPosTV;
     private TextView mTotalLengthTV;
@@ -51,6 +54,7 @@ public class VideoFragment extends Fragment implements SurfaceHolder.Callback, I
 
     private long mTotalLength;
     private int mProgress;
+    private float mLastPosition;
 
     private static Handler mHandler;
 
@@ -93,13 +97,19 @@ public class VideoFragment extends Fragment implements SurfaceHolder.Callback, I
                 }
             }
         });
-//        mFullScreenIV.setVisibility(View.VISIBLE);
-        mFullScreenIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if (!sIsFullScreen){
+            mFullScreenIV.setVisibility(View.VISIBLE);
+            mFullScreenIV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-            }
-        });
+                    if (mLibvlc != null && !TextUtils.isEmpty(mUrl)){
+                        VideoActivity.startActivity(getContext(), mUrl, mLibvlc.getPosition());
+                    }
+                }
+            });
+        }
+
 
         return view;
     }
@@ -107,16 +117,19 @@ public class VideoFragment extends Fragment implements SurfaceHolder.Callback, I
     @Override
     public void onPause() {
         super.onPause();
+
         if (mLibvlc != null && mLibvlc.isPlaying()){
+            mLastPosition = mLibvlc.getPosition();
             mLibvlc.pause();
         }
+        releasePlayer();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (mLibvlc != null ){
-            mLibvlc.play();
+        if (!TextUtils.isEmpty(mUrl)){
+//            play(mUrl, mLastPosition);
         }
     }
 
@@ -126,18 +139,10 @@ public class VideoFragment extends Fragment implements SurfaceHolder.Callback, I
         releasePlayer();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (!TextUtils.isEmpty(mUrl)){
-            createPlayer();
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        releasePlayer();
+    public void play(String url, float position){
+        mLastPosition = position;
+        play(url);
     }
 
     public void play(String url){
@@ -325,6 +330,10 @@ public class VideoFragment extends Fragment implements SurfaceHolder.Callback, I
                 case EventHandler.MediaPlayerPlaying:
                     mTotalLength = mLibvlc.getLength();
                     mTotalLengthTV.setText(getTime(mTotalLength));
+                    mLibvlc.setPosition(mLastPosition);
+                    break;
+                case EventHandler.MediaPlayerBuffering:
+                    showProgressBar();
                     break;
                 case EventHandler.MediaPlayerEncounteredError:
                     Toast.makeText(getContext(), "error", Toast.LENGTH_LONG).show();

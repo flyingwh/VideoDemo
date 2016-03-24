@@ -31,11 +31,11 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         mUrls.add("rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov");
-        mUrls.add("http://111.206.109.51/youku/69725B70B7531827DD44E02109/030008110056F19FEF2D1D2BEEFCF9CED724C8-F199-5E66-4B4B-51D2187C3D70.mp4?&start=0");
-        mUrls.add("http://111.206.109.141/youku/67760DC8FE44783A22C7B92B90/0300080F0056C765A6910D05CF07DD39076B4C-7A3F-1204-FF28-DD41E5A75930.mp4?&start=0");
-        mUrls.add("http://111.206.106.182/youku/677117D8E253D831D400CE59E8/030008120054BE4988F3090014D61B5BDBE117-A72C-758E-0672-6157662632AE.mp4?&start=0");
-        mUrls.add("http://111.206.106.179/youku/6775BBB4F7F3A82F56334C429E/0300081000529CA73AEC1605CF07DDE4224B7E-6B2A-024A-A59F-53DC501652E8.mp4?&start=0");
-        mUrls.add("http://111.206.109.135/youku/6573A764DCE4783A22C6054BD6/0300080A0056F35C1AEAEC2BEEFCF944FCE3F8-DC2D-A555-E9D6-C85DB07E3E71.mp4?&start=0");
+        mUrls.add("http://www.sample-videos.com/video/flv/240/big_buck_bunny_240p_50mb.flv");
+        mUrls.add("http://www.cybertechmedia.com/samples/carmelhill.ram");
+        mUrls.add("http://techslides.com/demos/sample-videos/small.mp4");
+        mUrls.add("http://www.cybertechmedia.com/samples/taylors.ram");
+        mUrls.add("http://www.cybertechmedia.com/samples/pahio.ram");
 //        mUrls.add();
 
 
